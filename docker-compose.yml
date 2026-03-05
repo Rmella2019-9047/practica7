@@ -1,0 +1,30 @@
+services:
+  app:
+    image: 'php:8.2-apache'
+    container_name: 'app_practica7'
+    ports:
+      - '8080:80'
+    volumes:
+      - './src:/var/www/html'
+    restart: 'always'
+    depends_on:
+      - db
+    entrypoint:
+      - sh
+      - -c
+      - "docker-php-ext-install mysqli && apache2-foreground"
+
+  db:
+    image: 'mysql'
+    container_name: db_practica7
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./db:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: itla
+
+      MYSQL_USER: user_practica
+      MYSQL_PASSWORD: root_password
